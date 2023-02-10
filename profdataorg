@@ -1,0 +1,54 @@
+from bs4 import BeautifulSoup
+import requests
+import json
+
+html_text = requests.get('https://faculty.rpi.edu/departments').text
+soup = BeautifulSoup(html_text,'lxml')
+
+text = soup.find("div", class_ = 'view-departments')
+
+school_data = {}
+department_data = {}
+department_tags = text.find_all('li')
+
+base_url = "https://faculty.rpi.edu"
+
+# for tag in department_tags:
+#     print(tag)
+
+for tag in department_tags:
+    department_page = requests.get(base_url + tag.find_next('a')['href']).text
+    dep_soup = BeautifulSoup(department_page,'lxml')
+    info = dep_soup.find(id="content")
+    people_data = info.find_all("div", class_='views-field views-field-title')
+    for person in people_data:
+        print(person.text)
+    
+    #for people in people_data:
+    #    print(people.find_next("div",class_ = 'views-field-title').find_next('a').text)
+    
+
+
+
+for school in schools: 
+    departments = school.find_next('div').find_all('h4')
+    school_data[school.text] = {
+        "school_link": "catalog.rpi.edu/" + school.find_next('a')['href'],
+        "departments": [dep.text for dep in departments],
+    }
+    for dep in departments:
+        department_data[dep.text] = {
+            "department_link": "catalog.rpi.edu/" + dep.find_next('a')['href'],
+        }
+
+
+for school_ in school_data:
+    print(school_ + ":")
+    print(school_data[school_]["school_link"])
+    for department in school_data[school_]["departments"]:
+        print("\t" + department)
+        print("\t" + department_data[department]["department_link"]+"\n")
+    
+
+
+
