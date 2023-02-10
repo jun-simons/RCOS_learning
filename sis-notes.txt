@@ -1,0 +1,22 @@
+Potential links for search:
+root = https://directory.rpi.edu/pplsearch
+ - root directory for people search
+ To search a first and last name, we would simply use:
+    root + "first" + "last" 
+ assuming first and last are strings containing the name data
+ 
+ This implementation should allow for relatively simple scraping of data.
+ 
+ To get professor data, we would take the most up to date data from the QUACS github,
+ which is frequently updated.  This contains first and last name but NOT rcs id.
+ We would then cross check through the people search feature to find information.
+ 
+ QUACS DATA:
+ https://github.com/quacs/quacs-data/blob/master/faculty.json
+ 
+ https://github.com/quacs/scraper/blob/master/faculty_directory_scraper/main.py
+ old directory scraper for reference
+ 
+ Old, less usefull page:
+ https://faculty.rpi.edu/
+ 
